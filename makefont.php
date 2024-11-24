@@ -45,10 +45,17 @@ function Error($txt)
 
 function LoadMap($enc)
 {
-	$file = dirname(__FILE__).'/'.strtolower($enc).'.map';
+	// Define a constant for the default character name
+	define('NOTDEF_CHAR', '.notdef');
+
+	$file = dirname(__FILE__) . '/' . strtolower($enc) . '.map';
 	$a = file($file);
-	if(empty($a)){
-		Error('Encoding not found: '.$enc);
+
+	if (empty($a)) {
+  	Error('Encoding not found: ' . $enc);
+}
+
+$map = array_fill(0, 256, array('uv' => -1, 'name' => NOTDEF_CHAR)); 1
 		}
 	$map = array_fill(0, 256, array('uv'=>-1, 'name'=>'.notdef'));
 	foreach($a as $line)
