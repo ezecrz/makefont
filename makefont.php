@@ -20,9 +20,10 @@ function Message($txt, $severity='')
 	}
 	else
 	{
-		if($severity)
+		if($severity){
 			echo "<b>$severity</b>: ";
 		echo "$txt<br>";
+		}
 	}
 }
 
