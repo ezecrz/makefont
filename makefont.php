@@ -49,8 +49,8 @@ function LoadMap($enc)
 	$a = file($file);
 	if(empty($a)){
 		Error('Encoding not found: '.$enc);
+		}
 	$map = array_fill(0, 256, array('uv'=>-1, 'name'=>'.notdef'));
-	}
 	foreach($a as $line)
 	{
 		$e = explode(' ', rtrim($line));
