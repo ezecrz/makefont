@@ -35,8 +35,9 @@ class TTFParser
 	function __construct($file)
 	{
 		$this->f = fopen($file, 'rb');
-		if(!$this->f)
+		if(!$this->f){
 			$this->Error('Can\'t open file: '.$file);
+		}
 	}
 
 	function __destruct()
