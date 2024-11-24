@@ -141,8 +141,9 @@ class TTFParser
 		if($this->indexToLocFormat==0)
 		{
 			// Short format
-			for($i=0;$i<=$this->numGlyphs;$i++)
+			for($i=0;$i<=$this->numGlyphs;$i++){
 				$offsets[] = 2*$this->ReadUShort();
+			}
 		}
 		else
 		{
