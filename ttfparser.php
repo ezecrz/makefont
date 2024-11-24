@@ -148,8 +148,9 @@ class TTFParser
 		else
 		{
 			// Long format
-			for($i=0;$i<=$this->numGlyphs;$i++)
+			for($i=0;$i<=$this->numGlyphs;$i++){
 				$offsets[] = $this->ReadULong();
+			}
 		}
 		for($i=0;$i<$this->numGlyphs;$i++)
 		{
