@@ -42,8 +42,9 @@ class TTFParser
 
 	function __destruct()
 	{
-		if(is_resource($this->f))
+		if(is_resource($this->f)){
 			fclose($this->f);
+		}
 	}
 
 	function Parse()
