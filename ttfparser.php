@@ -65,8 +65,9 @@ class TTFParser
 	function ParseOffsetTable()
 	{
 		$version = $this->Read(4);
-		if($version=='OTTO')
+		if($version=='OTTO'){
 			$this->Error('OpenType fonts based on PostScript outlines are not supported');
+		}
 		if($version!="\x00\x01\x00\x00")
 			$this->Error('Unrecognized file format');
 		$numTables = $this->ReadUShort();
