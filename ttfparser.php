@@ -89,8 +89,9 @@ class TTFParser
 		$this->Seek('head');
 		$this->Skip(3*4); // version, fontRevision, checkSumAdjustment
 		$magicNumber = $this->ReadULong();
-		if($magicNumber!=0x5F0F3CF5)
+		if($magicNumber!=0x5F0F3CF5){
 			$this->Error('Incorrect magic number');
+		}
 		$this->Skip(2); // flags
 		$this->unitsPerEm = $this->ReadUShort();
 		$this->Skip(2*8); // created, modified
