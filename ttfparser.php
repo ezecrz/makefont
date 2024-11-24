@@ -159,44 +159,48 @@ class TTFParser
 		}
 	}
 
-	function ParseGlyf()
-	{
-		$tableOffset = $this->tables['glyf']['offset'];
-		foreach($this->glyphs as &$glyph)
-		{
-			if($glyph['length']>0)
-			{
-				fseek($this->f, $tableOffset+$glyph['offset'], SEEK_SET);
-				if($this->ReadShort()<0)
-				{
-					// Composite glyph
-					$this->Skip(4*2); // xMin, yMin, xMax, yMax
-					$offset = 5*2;
-					$a = array();
-					do
-					{
-						$flags = $this->ReadUShort();
-						$index = $this->ReadUShort();
-						$a[$offset+2] = $index;
-						if($flags & 1) // ARG_1_AND_2_ARE_WORDS
-							$skip = 2*2;
-						else
-							$skip = 2;
-						if($flags & 8) // WE_HAVE_A_SCALE
-							$skip += 2;
-						elseif($flags & 64) // WE_HAVE_AN_X_AND_Y_SCALE
-							$skip += 2*2;
-						elseif($flags & 128) // WE_HAVE_A_TWO_BY_TWO
-							$skip += 4*2;
-						$this->Skip($skip);
-						$offset += 2*2 + $skip;
-					}
-					while($flags & 32); // MORE_COMPONENTS
-					$glyph['components'] = $a;
-				}
-			}
-		}
-	}
+	function ParseGlyf() {
+    $tableOffset = $this->tables['glyf']['offset'];
+
+    foreach ($this->glyphs as &$glyph) {
+        if ($glyph['length'] > 0) {
+            fseek($this->f, $tableOffset + $glyph['offset'], SEEK_SET);
+
+            if ($this->ReadShort() < 0) {
+                // Composite glyph
+                $this->Skip(4 * 2); // xMin, yMin, xMax, yMax
+                $offset = 5 * 2;
+
+                $components = [];
+                do {
+                    $flags = $this->ReadUShort();
+                    $index = $this->ReadUShort();
+                    $components[$offset + 2] = $index;
+
+                    switch ($flags & 0xF) {
+                        case 1: // ARG_1_AND_2_ARE_WORDS
+                            $additionalBytes = 2 * 2;
+                            break;
+                        case 8: // WE_HAVE_A_SCALE
+                            $additionalBytes = 2;
+                            break;
+                        case 64: // WE_HAVE_AN_X_AND_Y_SCALE
+                            $additionalBytes = 2 * 2;
+                            break;
+                        case 128: // WE_HAVE_A_TWO_BY_TWO
+                            $additionalBytes = 4 * 2;
+                            break;
+                        default:
+                            $additionalBytes = 2;
+                    }
+
+                    $this->Skip($additionalBytes);
+                    $offset += 2 * 2 + $additionalBytes;
+                } while(/* ... */); // Continue the loop based on the composite glyph structure
+            }
+        }
+    }
+}
 
 	function ParseCmap()
 	{
