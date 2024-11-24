@@ -13,9 +13,10 @@ function Message($txt, $severity='')
 {
 	if(PHP_SAPI=='cli')
 	{
-		if($severity) 
+		if($severity){
 			echo "$severity: ";
-		echo "$txt\n";
+			echo "$txt\n";
+		}
 	}
 	else
 	{
