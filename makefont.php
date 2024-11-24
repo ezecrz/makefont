@@ -32,9 +32,10 @@ function Notice($txt)
 	Message($txt, 'Notice');
 }
 
-function Warning($txt)
+function Warning($txt){
 {
 	Message($txt, 'Warning');
+}
 }
 
 function Error($txt)
